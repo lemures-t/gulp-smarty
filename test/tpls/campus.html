@@ -1,0 +1,22 @@
+{assign var="TPLdata" value=$data.data.chs.edu_pic_campus.data}
+{assign var="groupData" value=[]}
+<div class="header">
+	<div class="header-title">图话校园</div>
+</div>
+<div class="body">
+<div class="headline">
+	<a href="{$TPLdata[0].url}" target="_blank">
+		<img class="pic" src="{$TPLdata[0].img}">
+		<div class="title">{$TPLdata[0].title}</div>
+	</a>
+</div>
+<ul class="list">
+{foreach key=outer item=contact from=$TPLdata}
+  {if $outer > 0 && $outer < 3}
+	  <li class="item">
+      <a href="{$contact.url}" target="_blank">{$contact.title}</a>
+    </li>
+  {/if}
+{/foreach}
+</ul>
+</div>

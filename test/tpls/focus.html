@@ -1,0 +1,9 @@
+{assign var="TPLdata" value=$data.data.chs.edu_pic_news.data}
+{assign var="groupData" value=[]}
+{foreach key=outer item=contact from=$TPLdata}
+  {if $outer==0}
+    <a href="{$contact.url}" target="_blank"><img class="pic" src="{$contact.img_url}" alt="{$contact.title}">
+        <div class="title">{$contact.title}</div>
+    </a>
+  {/if}
+{/foreach}

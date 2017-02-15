@@ -20,7 +20,9 @@
   ],
   "keywords": [
     "gulpplugin",
-    "smarty4js"
+    "smarty4js",
+    "remote_src",
+    "local_src"
   ],
   "dependencies": {
     "gulp-util": "^3.0.7",

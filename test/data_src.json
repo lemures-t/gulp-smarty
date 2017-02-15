@@ -1,0 +1,21 @@
+{
+  "ad3":{
+    "data":{
+      "data":{
+        "chs":{
+          "edu_pic_ad3":{
+            "data" : [{
+              "url":"https://v.qq.com/x/cover/2mjz2nvvlbgnsq8.html",
+              "img":"http://img1.gtimg.com/ninja/2/2017/01/ninja148481072940507.png",
+              "title":"校花说"
+            }]
+          }
+        }
+      }
+    }
+  },
+  "article":"https://page.ninja.webdev.com/index.php?g=HomeIndex&m=pacManage&a=seeOneData&id=404873",
+  "campus":"../tpls_data/campus.json",
+  "focus":"http://page.ninja.webdev.com/index.php?g=HomeIndex&m=pacManage&a=seeOneData&id=404873",
+  "video":"../tpls_data/video.json"
+}
