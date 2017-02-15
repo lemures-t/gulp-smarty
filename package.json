@@ -1,0 +1,34 @@
+{
+  "name": "gulp-smarty",
+  "version": "0.0.1",
+  "description": "The gulp plugin to render smarty template from remote api",
+  "license": "MIT",
+  "repository": "lemures.lht@gmail.com/gulp-smarty",
+  "author": {
+    "name": "lemures",
+    "email": "lemures.lht@gmail.com",
+    "url": "https://github.com/lemures-t"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "xo && ava"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "gulpplugin",
+    "smarty4js"
+  ],
+  "dependencies": {
+    "gulp-util": "^3.0.7",
+    "smarty4js": "^0.1.8",
+    "through2": "^2.0.1"
+  },
+  "devDependencies": {
+    "ava": "^0.14.0",
+    "xo": "^0.14.0"
+  }
+}
