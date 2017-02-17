@@ -10,25 +10,11 @@ const gutil 	= require('gulp-util'),
 
 const PLUGIN_NAME = "gulp-smarty"
 
-const read = (p) => {
-	let _path;
-	if (path.isAbsolute(p)){
-		_path = p
-	}else{
-		// __dirname is expected to be */gulp-smarty, only in dev env
-		if (path.basename(path.resolve(__dirname,'../')) !== 'node_modules'){
-			_path = path.join(__dirname,p)
-		// __dirname is expected to be */project-name/node_modules/gulp-smarty
-		// resolve to project-name
-		}else{
-			_path = path.join(path.resolve(__dirname,'../','../'),p);
-		}
-	}
-
+const read = (_path) => {
 	try {
 		return JSON.parse(fs.readFileSync(_path))
 	}catch(err){
-		throw new gutil.PluginError(PLUGIN_NAME,`Fail to read file ${p}, error: ${err.code}`);
+		throw new gutil.PluginError(PLUGIN_NAME,`Fail to read file ${_path}, error: ${err.code}`);
 	}
 }
 
@@ -38,7 +24,7 @@ const read = (p) => {
 /*gulp.src('address_to_tpls_src')
 	.pipe(smarty(
 		{
-			'src' : '../foo.json',
+			'data' : '../foo.json',
 			'parent_obj' : {
 				'data':{
 					'data':'{{CHILD_OBJ}}'
@@ -48,7 +34,9 @@ const read = (p) => {
 				headers: {
 					Cookie : 'ffdasf'
 				}
-			}
+			},
+			'left_delimiter':  '{',
+			'right_delimiter': '}'
 		}
 	))
 	.dest('address_to_tpls_dist')*/
@@ -72,6 +60,7 @@ const read = (p) => {
 	}
 	// remote add
 	'name' : {
+		'src_name' : '' (optional)
 		'src_data' : 'address',
 		'req_opt' :{
 			headers: {
@@ -86,20 +75,22 @@ const render = (opts) => {
 
 	if (!opts || Object.prototype.toString.call(opts) !== '[object Object]') throw new gutil.PluginError(PLUGIN_NAME,'Arguments is Invalid');
 
-	if (typeof opts.data === 'undefined') throw new gutil.PluginError(PLUGIN_NAME,"No Key 'data' in Arguments Object");
+	let DATA,p;
+	// module.parent 是指触发这个 js 文件的 js 文件, 这里是某个gulpfile
+	// module.id 是指 module.parent 的绝对路径
+	// path.dirname(module.parent.id), 是找到 gulpfile 的父级目录
+	let root = path.dirname(module.parent.id)
 
-	let data;
-
-	switch (typeof opts.data){
-		case 'string':
-			data = read(opts.data);
-			//console.log(require(data));
-			break;
-		case 'object':
-			data = opts.data;
-			break;
-		default:
-			throw new gutil.PluginError(PLUGIN_NAME,"The Value of 'data' in Arguments Object is Expected to be Path as String or JSON Data as Object");
+	if (opts.path){
+		p = path.isAbsolute(opts.path) ? opts.path : path.join(root,opts.path); // p 存储 json 文件的绝对路径
+		DATA = read(p);
+	}else if (opts.data){
+		if (Object.prototype.toString.call(opts.data) !== '[object Object]'){
+			throw new gutil.PluginError(PLUGIN_NAME,"The Value of 'data' in Arguments Object is Expected to be JSON Data as Object");
+		}
+		DATA = opts.data;
+	}else{
+		throw new gutil.PluginError(PLUGIN_NAME,"The key 'data' or 'path' in Arguments Object is Expected");
 	}
 
 	// file from gulp is vinyl file, is not normal stream
@@ -113,94 +104,84 @@ const render = (opts) => {
 			cb(new gutil.PluginError(PLUGIN_NAME, 'Stream not supported'));
 			return;
 		}
-		if (file.isBuffer()){
-			let key = path.basename( file.path, path.extname(file.path) );
-			let src = data [key];
 
+		if (file.isBuffer()){
+		  let key = path.basename( file.path, path.extname(file.path) );
+			let src = DATA [key];
+			let that = this;
+			let result;
+
+			let SMARTY = new smarty();
+
+			SMARTY.config({
+				'left_delimiter':  '{',
+				'right_delimiter': '}'
+			})
 			// origign json data;
 			if (typeof src === 'object'){
-				//console.log('json',src)
+				try{
+					result = SMARTY.render(file.path,src);
+					file.contents = new Buffer(result);
+				}catch(e){
+					return cb(new gutil.PluginError(PLUGIN_NAME,e))
+				}
+				return cb(null,file)
 			}
+
 			if (typeof src === 'string'){
 
-				// remote data
-				let matched = src.match(/^http(s)?\:\/\//)
-				if (matched){
-					// https protocal
-					if (matched[1]){
-						//console.log('remote https',src)
+			  // remote data
+			  let matched = src.match(/^http(s)?\:\/\//);
 
-					// http protocal
-					}else{
-						let u = url.parse(src);
-						http.get({
-							hostname : u.hostname,
-							path : u.path,
-							headers: {
-								Cookie: "PHPSESSID=lojtsh3s9u8k8stagpvdatj1p0"
-							}
-						},function(res){
-							console.log('code', res.statusCode)
+			  if (matched){
+					let u = url.parse(src);
+					let protocol = matched[1] ? https : http;
 
-							let raw = '';
-
-							if (res.statusCode == '200'){
-								res.on('data',function(data){
-									raw += data.toString();
-								})
-
-								res.on('end',function(){
-									let _d = JSON.parse(raw);
-									_d = {
-										"data":{
-											"data":_d
-										}
-									}
-
-									let s = new smarty();
-									s.config({
-										'left_delimiter':  '{',
-    								'right_delimiter': '}'
-									})
-									console.log(_d)
-									console.log(file.path)
-									let a  = s.render(file.path,_d);
-									console.log('result',a);
-
-
-								})
+		      protocol.get({
+		        hostname : u.hostname,
+		        path : u.path,
+		        headers: {
+		          Cookie: "PHPSESSID=lojtsh3s9u8k8stagpvdatj1p0"
+		        }
+		      },function(res){
+		        let raw = '';
+						if (res.statusCode != '200') {
+							return cb(new gutil.PluginError(PLUGIN_NAME,`GET ${src} return ${res.statusCode}`))
+						}
+	          res.on('data',function(data){
+	            raw += data.toString();
+	          })
+	          res.on('end',function(){
+	            let _d = JSON.parse(raw);
+	            _d = {
+	              "data":{
+	                "data":_d
+	              }
+	            }
+							try{
+								result = SMARTY.render(file.path,_d);
+								file.contents = new Buffer(result);
+							}catch(e){
+								return cb(new gutil.PluginError(PLUGIN_NAME,e))
 							}
 
-						})
-						//console.log('remote http',src)
+							return cb(null,file)
+	          })
+		      })
+			  // file data
+			  }else{
+					let _p = path.isAbsolute(src) ? src : path.join(path.dirname(p),src)
+					let _d = read(_p);
+					try{
+						result = SMARTY.render(file.path,_d);
+						file.contents = new Buffer(result);
+					}catch(e){
+						return cb(new gutil.PluginError(PLUGIN_NAME,e))
 					}
-
-
-				// file data
-				}else{
-					//console.log('file',src)
-				}
+					return cb(null,file)
+			  }
 			}
-
-
-
-
-
-
-			//cb( new gutil.PluginError(PLUGIN_NAME, 'Buffer not supported'))
 		}
-
-
-
-		/*try {
-			//console.log(file)
-			//file.contents = new Buffer();
-			this.push(file);
-		} catch (err) {
-			this.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
-		}*/
-
-		cb();
 	});
 };
 

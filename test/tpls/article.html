@@ -1,20 +1,7 @@
 {assign var="TPLdata" value=$data.data.chs.edu_pic_news.data}
-{assign var="groupData" value=[]}
-{foreach key=outer item=contact from=$TPLdata}
-	{if $contact.article_type == "1"}
-		{$groupData[]=$contact}
-	{/if}
-{/foreach}
-{assign var="groupData1" value=[]}
-{assign var="groupData2" value=[]}
-{foreach key=index item=article from=$groupData}
-	{if $index > 0 && $index < 11}
-		{$groupData1[]=$article}
-	{/if}
-	{if $index > 10 && $index < 21}
-		{$groupData2[]=$article}
-	{/if}
-{/foreach}
+
+
+{$flag = 0}
 
 
 {function name=article}
@@ -72,13 +59,24 @@
 
 
 <div class="section1">
-	{foreach key=outer item=article from=$groupData1}
-		{call name=article article=$article}
+	{foreach key=outer item=article from=$TPLdata}
+		{if $article.article_type == "1"}
+			{if $flag > 0 && $flag < 11}
+				{call name=article article=$article}
+			{/if}
+			{$flag++}
+		{/if}
 	{/foreach}
 </div>
 
+{$flag = 0}
 <div class="section2">
-	{foreach key=outer item=article from=$groupData2}
-		{call name=article article=$article}
+	{foreach key=outer item=article from=$TPLdata}
+		{if $article.article_type == "1"}
+			{if $flag > 10 && $flag < 21}
+				{call name=article article=$article}
+			{/if}
+			{$flag++}
+		{/if}
 	{/foreach}
 </div>

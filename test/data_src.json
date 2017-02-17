@@ -14,8 +14,8 @@
       }
     }
   },
-  "article":"https://page.ninja.webdev.com/index.php?g=HomeIndex&m=pacManage&a=seeOneData&id=404873",
-  "campus":"../tpls_data/campus.json",
-  "focus":"http://page.ninja.webdev.com/index.php?g=HomeIndex&m=pacManage&a=seeOneData&id=404873",
-  "video":"../tpls_data/video.json"
+  "article":"http://page.ninja.webdev.com/index.php?g=HomeIndex&m=pacManage&a=seeOneData&id=416471",
+  "campus":"./tpls_data/campus.json",
+  "focus":"http://page.ninja.webdev.com/index.php?g=HomeIndex&m=pacManage&a=seeOneData&id=416471",
+  "video":"./tpls_data/video.json"
 }

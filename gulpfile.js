@@ -7,7 +7,8 @@ const gulp = require('gulp'),
 gulp.task('smarty',function(){
   return gulp.src('test/tpls/*.htm?(l)')
     .pipe(smarty({
-      data:'test/data_src.json'
+      path:'test/data_src.json',
+      data:''
     }))
     .pipe(gulp.dest('./test/dest'))
 })
