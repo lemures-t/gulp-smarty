@@ -1,0 +1,4 @@
+examples/* linguist-vendored
+test/data/* linguist-vendored
+test/result/* linguist-vendored
+test/tpl/* linguist-vendored
