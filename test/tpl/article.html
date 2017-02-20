@@ -1,0 +1,82 @@
+{assign var="TPLdata" value=$data.data.chs.edu_pic_news.data}
+
+
+{$flag = 0}
+
+
+{function name=article}
+	<div class="article">
+		<div class="title">
+			<a href="{$article.url}" target="_blank">{$article.title}</a>
+		</div>
+		<ul class="pics">
+			{foreach key=imgouter item=img from=$article.group_images}
+			<li class="pic">
+				<a href="{$article.url}" target="_blank">
+					<img src="{$img|regex_replace:"/_200160/":"_295195"}" alt="{$article.title}">
+				</a>
+			</li>
+			{/foreach}
+		</ul>
+		<div class="info">
+			<div class="source">{$article.source}</div>
+			<div class="tags">
+				{foreach key=keywordsouter item=keyword from=$article.keyword}
+				<span class="tag"><a href="http://edu.qq.com/dc_column_article/TagsList.htm?tags={$keyword}" target="_blank">{$keyword}</a></span>
+				{/foreach}
+			</div>
+			<div class="tool">
+				<a class="comment item" href="http://coral.qq.com/{$article.comment_id}" target="_blank">
+					<div class="bg"></div>
+					<div class="content">{$article.comment_count}</div>
+				</a>
+				<div class="share item"></div>
+				<div class="shares">
+					<div class="share-arrow"></div>
+					<ul class="shares-list" data-url="{$article.url}" data-title="{$article.title}">
+						<li class="share-item txwb">
+							<span class="icon"></span>
+							<span class="link" data-type="txwb">腾讯微博</span>
+						</li>
+						<li class="share-item qzone">
+							<span class="icon"></span>
+							<span class="link" data-type="qzone">QQ空间</span>
+						</li>
+						<li class="share-item qq">
+							<span class="icon"></span>
+							<span class="link" data-type="qq">QQ好友</span>
+						</li>
+						<li class="share-item sinawb">
+							<span class="icon"></span>
+							<span class="link" data-type="sinawb">新浪微博</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+{/function}
+
+
+<div class="section1">
+	{foreach key=outer item=article from=$TPLdata}
+		{if $article.article_type == "1"}
+			{if $flag > 0 && $flag < 11}
+				{call name=article article=$article}
+			{/if}
+			{$flag++}
+		{/if}
+	{/foreach}
+</div>
+
+{$flag = 0}
+<div class="section2">
+	{foreach key=outer item=article from=$TPLdata}
+		{if $article.article_type == "1"}
+			{if $flag > 10 && $flag < 21}
+				{call name=article article=$article}
+			{/if}
+			{$flag++}
+		{/if}
+	{/foreach}
+</div>

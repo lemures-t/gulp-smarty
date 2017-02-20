@@ -16,6 +16,9 @@
       }
     }
   },
+  "campus":{
+    "src_data":"./data/campus.json"
+  },
   "article":{
     "src_data":"http://page.ninja.webdev.com/index.php?g=HomeIndex&m=pacManage&a=seeOneData&id=416471",
     "res_wrapper":{
@@ -25,30 +28,8 @@
     },
     "req_opt":{
       "headers": {
-        "Cookie" : "PHPSESSID=ji4qskcu4v3pe8hm57tptq6ns0"
+        "Cookie" : "PHPSESSID=384g2l0uvnl6adusg1npj08ob6"
       }
     }
-  },
-  "campus":{
-    "src_data":"./tpls_data/campus.json"
-  },
-  "focus":{
-    "src_data":"http://page.ninja.webdev.com/index.php?g=HomeIndex&m=pacManage&a=seeOneData&id=416471",
-    "res_wrapper":{
-      "data":{
-        "data":"{{RES}}"
-      }
-    },
-    "req_opt":{
-      "headers": {
-        "Cookie" : "PHPSESSID=ji4qskcu4v3pe8hm57tptq6ns0"
-      }
-    }
-  },
-  "video":{
-    "src_data":"./tpls_data/video.json"
-  },
-  "wishes":{
-    "src_data":"https://dev.cpcwe.com/wishes/wishes?app_name=wishes&festival_id=2"
   }
 }

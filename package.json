@@ -1,7 +1,7 @@
 {
   "name": "gulp-smarty",
   "version": "0.0.1",
-  "description": "The gulp plugin to render smarty template from remote api",
+  "description": "The gulp plugin to render smarty template from remote api and local data",
   "license": "MIT",
   "repository": "lemures.lht@gmail.com/gulp-smarty",
   "author": {
@@ -13,7 +13,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "xo && ava"
+    "test": "mocha test.js"
   },
   "files": [
     "index.js"
@@ -30,7 +30,7 @@
     "through2": "^2.0.1"
   },
   "devDependencies": {
-    "ava": "^0.14.0",
-    "xo": "^0.14.0"
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
   }
 }

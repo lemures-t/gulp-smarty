@@ -14,67 +14,11 @@ const read = (_path) => {
 	try {
 		return JSON.parse(fs.readFileSync(_path))
 	}catch(err){
-		throw new gutil.PluginError(PLUGIN_NAME,`Fail to read file ${_path}, error: ${err.code}`);
+		throw new gutil.PluginError(PLUGIN_NAME,`Fail to read file ${_path}, error: ${err}`);
 	}
 }
 
-/**
- * gulp flow design
- */
-/*gulp.src('address_to_tpls_src')
-	.pipe(smarty(
-		{
-      'path':'test/data_src.json',
-			'data' : {
-				foo: 'bar'
-			},
-			'res_wrapper' : {
-				'data':{
-					'data':'{{RES}}'
-				}
-			},
-			'req_opt' :{
-				headers: {
-					Cookie : 'ffdasf'
-				}
-			},
-			'left_delimiter':  '{',
-			'right_delimiter': '}'
-		}
-	))
-	.dest('address_to_tpls_dist')*/
-
-
-/**
- * sample src json file
- */
-/*{
-	// local json
-	'name' : {
-		'src_name' : ''
-		'src_data' : {
-			'key': value
-		}
-	},
-	// json file
-	'name' : {
-		'src_name' : ''
-		'src_data' : 'path to json',
-	}
-	// remote add
-	'name' : {
-		'src_name' : '' (optional)
-		'src_data' : 'address',
-		'req_opt' :{
-			headers: {
-				Cookie : 'ffdasf'
-			}
-		}
-	}
-}*/
-
 const render = (opts) => {
-
 
 	if (!opts || Object.prototype.toString.call(opts) !== '[object Object]') throw new gutil.PluginError(PLUGIN_NAME,'Arguments is Invalid');
 
@@ -85,6 +29,9 @@ const render = (opts) => {
 	let root = path.dirname(module.parent.id)
 
 	if (opts.path){
+		if (Object.prototype.toString.call(opts.path) !== '[object String]'){
+			throw new gutil.PluginError(PLUGIN_NAME,"The Value of 'path' in Arguments Object is Expected to be path as String");
+		}
 		// p 存储 json 文件的绝对路径
 		p = path.isAbsolute(opts.path) ? opts.path : path.join(root,opts.path);
 		DATA = read(p);
