@@ -24,10 +24,13 @@ const read = (_path) => {
 /*gulp.src('address_to_tpls_src')
 	.pipe(smarty(
 		{
-			'data' : '../foo.json',
-			'parent_obj' : {
+      'path':'test/data_src.json',
+			'data' : {
+				foo: 'bar'
+			},
+			'res_wrapper' : {
 				'data':{
-					'data':'{{CHILD_OBJ}}'
+					'data':'{{RES}}'
 				}
 			},
 			'req_opt' :{
@@ -82,7 +85,8 @@ const render = (opts) => {
 	let root = path.dirname(module.parent.id)
 
 	if (opts.path){
-		p = path.isAbsolute(opts.path) ? opts.path : path.join(root,opts.path); // p 存储 json 文件的绝对路径
+		// p 存储 json 文件的绝对路径
+		p = path.isAbsolute(opts.path) ? opts.path : path.join(root,opts.path);
 		DATA = read(p);
 	}else if (opts.data){
 		if (Object.prototype.toString.call(opts.data) !== '[object Object]'){
@@ -93,6 +97,10 @@ const render = (opts) => {
 		throw new gutil.PluginError(PLUGIN_NAME,"The key 'data' or 'path' in Arguments Object is Expected");
 	}
 
+
+	if (opts.smarty_opt && Object.prototype.toString.call(opts.smarty_opt) !== '[object Object]'){
+		throw new gutil.PluginError(PLUGIN_NAME,"The Value of 'opts.smarty_opt' in Arguments Object is Expected to be JSON Data as Object");
+	}
 	// file from gulp is vinyl file, is not normal stream
 	// so through.obj should be used
 	return through.obj(function (file, enc, cb) {
@@ -107,16 +115,15 @@ const render = (opts) => {
 
 		if (file.isBuffer()){
 		  let key = path.basename( file.path, path.extname(file.path) );
-			let src = DATA [key];
+			let config = DATA [key]
+			let src = config.src_data;
 			let that = this;
 			let result;
 
 			let SMARTY = new smarty();
 
-			SMARTY.config({
-				'left_delimiter':  '{',
-				'right_delimiter': '}'
-			})
+			opts.smarty_opt && SMARTY.config(opts.smarty_opt)
+
 			// origign json data;
 			if (typeof src === 'object'){
 				try{
@@ -137,13 +144,15 @@ const render = (opts) => {
 					let u = url.parse(src);
 					let protocol = matched[1] ? https : http;
 
-		      protocol.get({
+					let remote_config = {
 		        hostname : u.hostname,
-		        path : u.path,
-		        headers: {
-		          Cookie: "PHPSESSID=lojtsh3s9u8k8stagpvdatj1p0"
-		        }
-		      },function(res){
+		        path : u.path
+					}
+
+					if (config.req_opt){
+						remote_config = Object.assign(remote_config,config.req_opt)
+					}
+		      protocol.get(remote_config,function(res){
 		        let raw = '';
 						if (res.statusCode != '200') {
 							return cb(new gutil.PluginError(PLUGIN_NAME,`GET ${src} return ${res.statusCode}`))
@@ -152,12 +161,10 @@ const render = (opts) => {
 	            raw += data.toString();
 	          })
 	          res.on('end',function(){
-	            let _d = JSON.parse(raw);
-	            _d = {
-	              "data":{
-	                "data":_d
-	              }
-	            }
+	            if (config.res_wrapper){
+								raw = JSON.stringify(config.res_wrapper).replace(/"{{RES}}"/,raw);
+							}
+							let _d = JSON.parse(raw);
 							try{
 								result = SMARTY.render(file.path,_d);
 								file.contents = new Buffer(result);
@@ -170,7 +177,13 @@ const render = (opts) => {
 		      })
 			  // file data
 			  }else{
-					let _p = path.isAbsolute(src) ? src : path.join(path.dirname(p),src)
+					let _p;
+					if (path.isAbsolute(src)){
+						_p = src;
+					} else{
+						_p = !p ? path.join(root,src) : path.join(path.dirname(p),src)
+					}
+
 					let _d = read(_p);
 					try{
 						result = SMARTY.render(file.path,_d);
