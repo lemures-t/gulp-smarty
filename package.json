@@ -1,6 +1,6 @@
 {
   "name": "gulp-smarty",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "The gulp plugin to render smarty template from remote api and local data",
   "license": "MIT",
   "author": {
