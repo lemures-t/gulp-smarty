@@ -67,7 +67,7 @@ describe('gulp-smarty-constructor', function() {
       let stream = smarty({
         'path': './err_data_src.json'
       })
-    }, /Fail to read file (.*) JSON/, 'no such file or directory')
+    }, /Fail to read file/, 'no such file or directory')
     done();
   })
 

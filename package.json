@@ -19,10 +19,11 @@
     "index.js"
   ],
   "keywords": [
-    "gulpplugin",
-    "smarty4js",
-    "remote_src",
-    "local_src"
+    "gulp plugin",
+    "smarty",
+    "remote address",
+    "local data",
+    "template"
   ],
   "dependencies": {
     "gulp-util": "^3.0.7",
