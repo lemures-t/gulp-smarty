@@ -6,7 +6,7 @@ const {
 const smarty = require('../');
 const gutil = require('gulp-util');
 const path = require('path');
-const vinyl = require('Vinyl')
+const vinyl = require('vinyl')
 const fs = require('fs');
 
 const createVinyl = (TPL, contents) => {
