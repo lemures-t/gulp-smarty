@@ -138,17 +138,10 @@ describe('gulp-smarty-render', function() {
         "campus": {
           "src_data": "./data/campus.json"
         },
-        "article": {
-          "src_data": "http://page.ninja.webdev.com/index.php?g=HomeIndex&m=pacManage&a=seeOneData&id=416471",
+        "wishes": {
+          "src_data": "https://dev.cpcwe.com/wishes/wishes?app_name=wishes&festival_id=2&wishes_id=105",
           "res_wrapper": {
-            "data": {
-              "data": "{{RES}}"
-            }
-          },
-          "req_opt": {
-            "headers": {
-              "Cookie": "PHPSESSID=384g2l0uvnl6adusg1npj08ob6"
-            }
+            "data": "{{RES}}"
           }
         }
       },
@@ -160,7 +153,7 @@ describe('gulp-smarty-render', function() {
     let tpls = [
       createVinyl('ad3.html'),
       createVinyl('campus.html'),
-      createVinyl('article.html')
+      createVinyl('wishes.html')
     ];
     let count = tpls.length;
     //whole file as Buffer
@@ -187,7 +180,7 @@ describe('gulp-smarty-render', function() {
     let tpls = [
       createVinyl('ad3.html'),
       createVinyl('campus.html'),
-      createVinyl('article.html')
+      createVinyl('wishes.html')
     ];
     let count = tpls.length;
     //whole file as Buffer
