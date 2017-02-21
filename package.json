@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "description": "The gulp plugin to render smarty template from remote api and local data",
   "license": "MIT",
-  "repository": "lemures.lht@gmail.com/gulp-smarty",
   "author": {
     "name": "lemures",
     "email": "lemures.lht@gmail.com",
     "url": "https://github.com/lemures-t"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lemures-t/gulp-smarty.git"
   },
   "engines": {
     "node": ">=4.0.0"
