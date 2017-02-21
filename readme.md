@@ -1,4 +1,4 @@
-# gulp-smarty [![Build Status](https://travis-ci.org/lemures-t/gulp-smarty.svg?branch=master)](https://travis-ci.org/lemures-t/gulp-smarty)[![npm version](https://badge.fury.io/js/gulp-smarty.svg)](https://badge.fury.io/js/gulp-smarty)
+# gulp-smarty [![Build Status](https://travis-ci.org/lemures-t/gulp-smarty.svg?branch=master)](https://travis-ci.org/lemures-t/gulp-smarty) [![npm version](https://badge.fury.io/js/gulp-smarty.svg)](https://badge.fury.io/js/gulp-smarty)
 
 > The gulp plugin to render smarty template from remote api and local data
 
@@ -36,7 +36,7 @@ You can also refer to ```gulp.js``` in the repository for more usage details.
 
 The settings of gulp-smarty, which can be configured in the following two ways
 
-```json
+```javascript
 // options type ONE
 {
   "data":{},
@@ -44,7 +44,7 @@ The settings of gulp-smarty, which can be configured in the following two ways
 }
 // options type TWO
 {
-  "path":'',
+  "path":"",
   "smarty_opt":{}
 }
 ```
@@ -55,7 +55,7 @@ The settings of gulp-smarty, which can be configured in the following two ways
 
 The detail information, especially corresponing data to render the template.
 
-```json
+```javascript
 {
   "THE_NAME_OF_THE_HTML_TEMPLATE":{ // be same with the template name from gulp.src();
     // [object] the json data to render the template
