@@ -46,7 +46,7 @@ gulp.task('smarty-data', function() {
           },
           "req_opt": {
             "headers": {
-              "Cookie": "PHPSESSID=lojtsh3s9u8k8stagpvdatj1p0"
+              "Cookie": "PHPSESSID=ji4qskcu4v3pe8hm57tptq6ns0"
             }
           }
         },
@@ -62,7 +62,7 @@ gulp.task('smarty-data', function() {
           },
           "req_opt": {
             "headers": {
-              "Cookie": "PHPSESSID=lojtsh3s9u8k8stagpvdatj1p0"
+              "Cookie": "PHPSESSID=ji4qskcu4v3pe8hm57tptq6ns0"
             }
           }
         },
@@ -71,6 +71,12 @@ gulp.task('smarty-data', function() {
         },
         "wishes": {
           "src_data": "https://dev.cpcwe.com/wishes/wishes?app_name=wishes&festival_id=2"
+        },
+        "wishes_post":{
+          "src_data":"https://www.cpcwe.com/wishes/wishes?relation_id=2&gender_id=1&app_name=wishes&wishes_id=53&to=dear",
+          "req_opt":{
+            "method":"POST"
+          }
         }
       },
       smarty_opt: {

@@ -141,6 +141,12 @@ describe('gulp-smarty-render', function() {
           "res_wrapper": {
             "data": "{{RES}}"
           }
+        },
+        "wishes_post":{
+          "src_data":"https://www.cpcwe.com/wishes/wishes?relation_id=2&gender_id=1&app_name=wishes&wishes_id=53&to=dear",
+          "req_opt":{
+            "method":"POST"
+          }
         }
       },
       smarty_opt: {
@@ -151,7 +157,8 @@ describe('gulp-smarty-render', function() {
     let tpls = [
       createVinyl('ad3.html'),
       createVinyl('campus.html'),
-      createVinyl('wishes.html')
+      createVinyl('wishes.html'),
+      createVinyl('wishes_post.html')
     ];
     let count = tpls.length;
     //whole file as Buffer
@@ -178,7 +185,8 @@ describe('gulp-smarty-render', function() {
     let tpls = [
       createVinyl('ad3.html'),
       createVinyl('campus.html'),
-      createVinyl('wishes.html')
+      createVinyl('wishes.html'),
+      createVinyl('wishes_post.html')
     ];
     let count = tpls.length;
     //whole file as Buffer

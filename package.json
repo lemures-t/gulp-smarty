@@ -23,10 +23,9 @@
   ],
   "keywords": [
     "gulp plugin",
-    "smarty",
-    "remote address",
-    "local data",
-    "template"
+    "smarty template",
+    "remote api",
+    "local data"
   ],
   "dependencies": {
     "gulp-util": "^3.0.7",

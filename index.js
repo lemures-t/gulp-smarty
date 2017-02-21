@@ -99,7 +99,7 @@ const render = (opts) => {
           if (config.req_opt) {
             remote_config = Object.assign(remote_config, config.req_opt)
           }
-          protocol.get(remote_config, function(res) {
+          let req = protocol.request(remote_config, function(res) {
               let raw = '';
               if (res.statusCode != '200') {
                 return cb(new gutil.PluginError(PLUGIN_NAME, `GET ${src} return ${res.statusCode}`))
@@ -124,7 +124,12 @@ const render = (opts) => {
             }).on('error',function(err){
               return cb(new gutil.PluginError(PLUGIN_NAME, `GET ${src} return ${err}`))
             })
-            // file data
+
+          if (config.req_opt && (config.req_opt.method == 'post' || config.req_opt.method == 'POST') && config.req_opt.body){
+            req.write(config.req_opt.body);
+          }
+          req.end();
+          // file data
         } else {
           let _p;
           if (path.isAbsolute(src)) {
