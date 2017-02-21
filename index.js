@@ -121,6 +121,8 @@ const render = (opts) => {
 
                 return cb(null, file)
               })
+            }).on('error',function(err){
+              return cb(new gutil.PluginError(PLUGIN_NAME, `GET ${src} return ${err}`))
             })
             // file data
         } else {
