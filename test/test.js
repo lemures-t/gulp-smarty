@@ -1,10 +1,6 @@
 'use strict';
 
-const {
-  assert,
-  expect,
-  should
-} = require('chai');
+const assert = require('chai').assert;
 const smarty = require('../');
 const gutil = require('gulp-util');
 const path = require('path');
