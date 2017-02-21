@@ -100,7 +100,7 @@ One key between ```data``` and ```path``` **must** be set in options.
 
 
 
-##### @key ```smarty_opt```
+##### @key ```smarty_opt``` [object]
 
 the options supported by the renderer pacakge [**smarty4js** ](https://github.com/ecomfe/smarty4js), such as :
 
