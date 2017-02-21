@@ -1,4 +1,4 @@
-# gulp-smarty [![Build Status](https://travis-ci.org/lemures-t/gulp-smarty.svg?branch=masterr)](https://travis-ci.org/lemures-t/gulp-smarty.svg?branch=master)
+# gulp-smarty [![Build Status](https://travis-ci.org/lemures-t/gulp-smarty.svg?branch=master)](https://travis-ci.org/lemures-t/gulp-smarty)
 
 > My groundbreaking gulp plugin
 
